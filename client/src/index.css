@@ -1,2 +1,49 @@
 @import "tailwindcss";
 
+body {
+    @apply my-8 mx-[30%] dark:bg-black dark:text-white
+}
+
+h1 {
+    @apply mb-[10%] text-3xl font-medium
+}
+
+h2 {
+    @apply mb-[5%] text-xl font-extralight
+}
+
+h3 {
+    @apply mb-[5%] text-lg font-thin
+}
+
+textarea {
+    @apply  w-full h-96 px-5 py-3  mb-[5%] focus:outline-none dark:bg-gray-200 dark:text-black rounded-3xl
+}
+
+.analyzeContainer {
+    @apply flex justify-center mb-8
+}
+
+.analyzeButton {
+    @apply  flex mb-4 py-3 rounded-2xl w-[40%] dark:bg-gray-200 dark:hover:bg-gray-300 dark:text-black font-medium
+}
+
+.analyzeImg {
+    @apply w-5 h-5 mx-6
+}
+
+.anxietyScoreContainer {
+    @apply flex items-center
+}
+
+.scoreBarBackground {
+    @apply w-75 h-4 mb-4 dark:bg-gray-700 rounded-full
+}
+
+.scoreBar {
+    @apply dark:bg-white h-4 rounded-full
+}
+
+.scoreValue {
+    @apply text-sm font-light m-4 mt-0 dark:text-white
+}

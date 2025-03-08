@@ -1,9 +1,10 @@
+import Landing from "./pages/Landing.tsx";
 
 function App() {
 
   return (
     <>
-      <p>Hello World!</p>
+      <Landing />
     </>
   )
 }
