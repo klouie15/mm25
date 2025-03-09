@@ -13,8 +13,8 @@ function Results({ score, resultsScoreType, toneWords } :
 
         { toneWords.length > 0 ? (
             <>
-                {/* <h3>Violating Words</h3>
-                <WordList toneWords={toneWords} /> */}
+                <h3>Impacting Words</h3>
+                <WordList toneWords={toneWords} />
             </>
         ) : null}
     </>

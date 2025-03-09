@@ -63,7 +63,7 @@ function Landing() {
 
             const data = await response.json();
 
-            setScore(data.score);
+            setScore(parseInt(data.score));
             setToneWords(filterToneWords(data.tone_words, text));
             setIsSubmitted(true);
             setIsError(false);

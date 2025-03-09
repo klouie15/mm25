@@ -6,9 +6,7 @@ from sklearn.metrics import classification_report
 import pandas as pd
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
-import nltk
 import string
-import ssl
 
 
 datafile = "data.csv"
