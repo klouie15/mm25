@@ -33,4 +33,4 @@ async def get_madness_score(request: MadnessScoreRequest,
 async def get_confidence_score(request: ConfidenceScoreRequest,
                             response: Response):
     # TODO: Run model and get confidence score
-    return {"confidenceScore": 70}
+    return {"confidenceScore": 50}
