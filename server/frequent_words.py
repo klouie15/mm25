@@ -1,18 +1,17 @@
 from wordcloud import WordCloud, STOPWORDS
 from nltk.tokenize import word_tokenize
 
-
 STOPWORDS = set(STOPWORDS)
 
-user_input_string = "stinky people are the worst."
+def frequent_words(user_input_string):
+    text = user_input_string
+    # tokenize text
+    tokens = word_tokenize(text.lower())
 
-text = user_input_string
+    # generate word cloud accounting for our stopwords
+    wordcloud = WordCloud(stopwords = STOPWORDS).generate(text)
 
-# tokenize text
-tokens = word_tokenize(text.lower())
+    # grab the important words from the wordcloud
+    frequent_words = wordcloud.words_.keys()
 
-# generate word cloud accounting for our stopwords
-wordcloud = WordCloud(stopwords = STOPWORDS).generate(text)
-
-# grab the important words from the wordcloud
-frequent_words = wordcloud.words_.keys()
+    return frequent_words
