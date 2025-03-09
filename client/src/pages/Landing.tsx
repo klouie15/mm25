@@ -17,6 +17,9 @@ function Landing() {
         return (localStorage.getItem("vite-ui-theme") as "dark" | "light") || "dark";
     });
     const [resultsScoreType, setResultsScoreType] = useState<ResultsScoreType>(ResultsScoreType.madness);
+    const [toneWords, setToneWords] = useState<string[]>([]);
+
+    const resultsRef: RefObject<HTMLDivElement | null> = useRef<HTMLDivElement | null>(null);
 
     const toggleTheme = () => {
         const newTheme = theme === "dark" ? "light" : "dark";
@@ -24,7 +27,13 @@ function Landing() {
         localStorage.setItem("vite-ui-theme", newTheme);
     };
 
-    const resultsRef: RefObject<HTMLDivElement | null> = useRef<HTMLDivElement | null>(null);
+    function filterToneWords(toneWords: string[], emailText: string): string[] {
+        const lowerCaseEmailText: string = emailText.toLowerCase();
+
+        return toneWords.filter((word: string): boolean =>
+            lowerCaseEmailText.includes(word.toLowerCase())
+        );
+    }
 
     async function handleSubmit(): Promise<void> {
         if (!emailText.trim()) {
@@ -34,8 +43,8 @@ function Landing() {
 
         const apiUrl =
             theme === "dark"
-                ? "http://127.0.0.1:8000/emails/getMadnessScore"
-                : "http://127.0.0.1:8000/emails/getConfidenceScore";
+                ? "http://127.0.0.1:8000/madnessAnalysis"
+                : "http://127.0.0.1:8000/confidenceAnalysis";
 
         try {
             const response = await fetch(apiUrl, {
@@ -52,12 +61,8 @@ function Landing() {
 
             const data = await response.json();
 
-            if (theme === "dark") {
-                setScore(data.madnessScore);
-            } else {
-                setScore(data.confidenceScore);
-            }
-
+            setScore(data.score);
+            setToneWords(filterToneWords(data.tone_words, emailText));
             setIsSubmitted(true);
             setIsError(false);
         } catch (error) {
@@ -87,10 +92,12 @@ function Landing() {
         <main>
             <h1>Madnify</h1>
             <h2>Get started by writing an email</h2>
+
             <textarea
                 value={emailText}
                 onChange={(e) => setEmailText(e.target.value)}
-                placeholder="Draft your email here..."/>
+                placeholder="Draft your email here..."
+            />
 
             <div className="analyzeButtonContainer">
                 <AnalyzeButton
@@ -106,7 +113,7 @@ function Landing() {
                     duration={1000}
                 >
                     <div ref={resultsRef}>
-                        <Results score={score} resultsScoreType={resultsScoreType} />
+                        <Results score={score} resultsScoreType={resultsScoreType} toneWords={toneWords} />
                     </div>
                 </Fade>
             ) : null }

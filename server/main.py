@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Response
-from pydantic import BaseModel
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from schemas import MadnessScoreRequest, ConfidenceScoreRequest, AnalysisResponse
 
 app = FastAPI()
 
@@ -16,21 +16,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class MadnessScoreRequest(BaseModel):
-    text: str
 
-class ConfidenceScoreRequest(BaseModel):
-    text: str
-
-
-@app.post("/emails/getMadnessScore")
-async def get_madness_score(request: MadnessScoreRequest,
-                            response: Response):
+@app.post("/madnessAnalysis", response_model=AnalysisResponse)
+async def get_madness_analysis(request: MadnessScoreRequest):
     # TODO: Run model and get madness score
-    return {"madnessScore": 70}
+    return AnalysisResponse(score=70, tone_words=["hello"])
 
-@app.post("/emails/getConfidenceScore")
-async def get_confidence_score(request: ConfidenceScoreRequest,
-                            response: Response):
+
+@app.post("/confidenceAnalysis", response_model=AnalysisResponse)
+async def get_confidence_analysis(request: ConfidenceScoreRequest):
     # TODO: Run model and get confidence score
-    return {"confidenceScore": 50}
+    return AnalysisResponse(score=50, tone_words=["hello", "bye", "world", "goodbye", "testing", "framework", "love"])

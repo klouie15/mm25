@@ -56,6 +56,14 @@ textarea {
     @apply font-medium text-red-400 flex justify-center
 }
 
+.wordListContainer {
+    @apply flex flex-wrap justify-start
+}
+
+.wordItem {
+    @apply text-sm font-medium rounded-xl py-2 px-4 mr-2 mb-2 text-black dark:bg-gray-200
+}
+
 :root {
 
     --background: oklch(1 0 0);
