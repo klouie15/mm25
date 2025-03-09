@@ -1,9 +1,13 @@
-import nltk
+from nltk.tokenize import word_tokenize
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report
 import pandas as pd
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import stopwords
+import string
+
 
 datafile = "data.csv"
 df = pd.read_csv(datafile, index_col=False)
@@ -36,4 +40,30 @@ print(y_pred_prob)
 
 # evaluate model
 print(classification_report(y_valid, y_pred))
+
+
+# function to determine probabilites of each classification given a string
+def pred_probabilities(user_input_string):
+
+    # Initialize NLTK components
+    lemmatizer = WordNetLemmatizer()
+    stop_words = set(stopwords.words('english'))
+
+    text = user_input_string
+
+    #tokenize text
+    tokens = word_tokenize(text.lower())
+
+    # Remove punctuation and stopwords, and lemmatize
+    tokens = [
+        lemmatizer.lemmatize(word) for word in tokens
+        if word not in string.punctuation and word not in stop_words
+    ]
+    # Rejoin tokens into a single string
+    X = ' '.join(tokens)
+
+    y_prob = classifier.predict_proba(X)
+
+    return y_prob #probabilites in order neutral, happy, sad
+
 
