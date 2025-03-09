@@ -41,4 +41,7 @@ def preprocess_text(text):
 # Apply preprocessing to the 'text' column
 df['processed_text'] = df['text'].apply(preprocess_text)
 
+# double check 
 df = df.dropna()
+
+df.to_csv('data.csv')
