@@ -2,16 +2,24 @@ import '../index.css'
 import AnalyzeButton from "../components/AnalyzeButton.tsx";
 import Results from "../components/Results.tsx";
 import {RefObject, useEffect, useRef, useState} from "react";
+import { Fade } from "react-awesome-reveal";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertCircle } from "lucide-react"
+import { AttentionSeeker, Slide } from "react-awesome-reveal";
 
 function Landing() {
     const [emailText, setEmailText] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [anxietyScore, setAnxietyScore] = useState(0);
+    const [isError, setIsError] = useState(false);
 
     const resultsRef: RefObject<HTMLDivElement | null> = useRef<HTMLDivElement | null>(null);
 
     async function handleSubmit(): Promise<void> {
-        if (!emailText.trim()) return;
+        if (!emailText.trim()) {
+            setIsError(true);
+            return;
+        }
 
         try {
             const response = await fetch("http://127.0.0.1:8000/emails/getAnxietyScore", {
@@ -30,6 +38,7 @@ function Landing() {
 
             setAnxietyScore(data.anxietyScore);
             setIsSubmitted(true);
+            setIsError(false);
         } catch (error) {
             console.error("Error analyzing text:", error);
         }
@@ -42,19 +51,42 @@ function Landing() {
     }, [isSubmitted]);
 
     return <>
-        <h1>Anxietize</h1>
-        <h2>Get started by writing an email</h2>
-        <textarea
-            value={emailText}
-            onChange={(e) => setEmailText(e.target.value)}
-            placeholder="Draft your email here..."/>
-        <div className="analyzeButtonContainer">
-            <AnalyzeButton onClick={() => handleSubmit()} />
-        </div>
+        <main>
+            <h1>Anxietize</h1>
+            <h2>Get started by writing an email</h2>
+            <textarea
+                value={emailText}
+                onChange={(e) => setEmailText(e.target.value)}
+                placeholder="Draft your email here..."/>
+            <div className="analyzeButtonContainer">
+                <AnalyzeButton onClick={() => handleSubmit()} />
+            </div>
 
-        { isSubmitted ? (
-            <div ref={resultsRef}>
-                <Results anxietyScore={anxietyScore} />
+            { isSubmitted ? (
+                <Fade
+                    delay={200}
+                    duration={1000}
+                >
+                    <div ref={resultsRef}>
+                        <Results anxietyScore={anxietyScore} />
+                    </div>
+                </Fade>
+            ) : null }
+        </main>
+
+        { isError? (
+            <div className="fixed bottom-4 right-4 w-96">
+                <Slide direction="right" duration={100} triggerOnce>
+                    <AttentionSeeker effect="shakeX" delay={100} duration={500} triggerOnce>
+                        <Alert variant="destructive">
+                            <AlertCircle className="h-4 w-4" />
+                            <AlertTitle>Error</AlertTitle>
+                            <AlertDescription>
+                                Cannot analyze empty text. Please try again.
+                            </AlertDescription>
+                        </Alert>
+                    </AttentionSeeker>
+                </Slide>
             </div>
         ) : null }
     </>
