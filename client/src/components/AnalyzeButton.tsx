@@ -6,8 +6,8 @@ function AnalyzeButton({ onClick, type }:
     return <>
         <button className="analyzeButton" onClick={onClick}>
             <img src={analyzeImgSrc} className="analyzeImg" alt="Analyze Button" />
-            <p>{type === ResultsScoreType.confidence ?
-                ("Analyze") : ("Madnify")} Email</p>
+            <p>{type === ResultsScoreType.neutral ?
+                ("Analyze") : ("Madnify")} Text</p>
         </button>
     </>
 }

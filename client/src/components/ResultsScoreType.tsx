@@ -1,5 +1,5 @@
 enum ResultsScoreType {
-    confidence = 'Confidence',
+    neutral = 'Neutral',
     madness = 'Madness'
 }
 

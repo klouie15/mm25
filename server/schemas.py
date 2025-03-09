@@ -4,7 +4,7 @@ from typing import List
 class MadnessScoreRequest(BaseModel):
     text: str
 
-class ConfidenceScoreRequest(BaseModel):
+class NeutralScoreRequest(BaseModel):
     text: str
 
 class AnalysisResponse(BaseModel):

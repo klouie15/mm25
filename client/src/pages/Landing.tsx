@@ -11,7 +11,7 @@ import LogoBlack from "../images/logo-black.png"
 import LogoWhite from "../images/logo-white.png"
 
 function Landing() {
-    const [emailText, setEmailText] = useState("");
+    const [text, setText] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [score, setScore] = useState(0);
     const [isError, setIsError] = useState(false);
@@ -38,7 +38,7 @@ function Landing() {
     }
 
     async function handleSubmit(): Promise<void> {
-        if (!emailText.trim()) {
+        if (!text.trim()) {
             setIsError(true);
             return;
         }
@@ -46,7 +46,7 @@ function Landing() {
         const apiUrl =
             theme === "dark"
                 ? "http://127.0.0.1:8000/madnessAnalysis"
-                : "http://127.0.0.1:8000/confidenceAnalysis";
+                : "http://127.0.0.1:8000/neutralAnalysis";
 
         try {
             const response = await fetch(apiUrl, {
@@ -54,7 +54,7 @@ function Landing() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ text: emailText }),
+                body: JSON.stringify({ text: text }),
             });
 
             if (!response.ok) {
@@ -64,7 +64,7 @@ function Landing() {
             const data = await response.json();
 
             setScore(data.score);
-            setToneWords(filterToneWords(data.tone_words, emailText));
+            setToneWords(filterToneWords(data.tone_words, text));
             setIsSubmitted(true);
             setIsError(false);
         } catch (error) {
@@ -85,7 +85,7 @@ function Landing() {
         if (theme === "dark") {
             setResultsScoreType(ResultsScoreType.madness);
         } else {
-            setResultsScoreType(ResultsScoreType.confidence);
+            setResultsScoreType(ResultsScoreType.neutral);
         }
         setIsSubmitted(false);
     }, [theme]);
@@ -100,12 +100,12 @@ function Landing() {
                     (<img src={LogoBlack} alt="Madnify Logo" className="logo"/>)
                 }
             </header>
-            <h2>Get started by writing an email</h2>
+            <h2>Get started by writing some text</h2>
 
             <textarea
-                value={emailText}
-                onChange={(e) => setEmailText(e.target.value)}
-                placeholder="Draft your email here..."
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Draft your text here..."
             />
 
             <div className="analyzeButtonContainer">
