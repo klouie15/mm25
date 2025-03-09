@@ -2,17 +2,27 @@ import '../index.css'
 import AnalyzeButton from "../components/AnalyzeButton.tsx";
 import Results from "../components/Results.tsx";
 import {RefObject, useEffect, useRef, useState} from "react";
-import { Fade } from "react-awesome-reveal";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertCircle } from "lucide-react"
-import { AttentionSeeker, Slide } from "react-awesome-reveal";
-import { ModeToggle } from "../components/ModeToggle.tsx";
+import {AttentionSeeker, Fade, Slide} from "react-awesome-reveal";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert"
+import {AlertCircle} from "lucide-react"
+import {ModeToggle} from "../components/ModeToggle.tsx";
+import ResultsScoreType from "../components/ResultsScoreType.tsx";
 
 function Landing() {
     const [emailText, setEmailText] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [anxietyScore, setAnxietyScore] = useState(0);
+    const [score, setScore] = useState(0);
     const [isError, setIsError] = useState(false);
+    const [theme, setTheme] = useState<"dark" | "light">(() => {
+        return (localStorage.getItem("vite-ui-theme") as "dark" | "light") || "dark";
+    });
+    const [resultsScoreType, setResultsScoreType] = useState<ResultsScoreType>(ResultsScoreType.madness);
+
+    const toggleTheme = () => {
+        const newTheme = theme === "dark" ? "light" : "dark";
+        setTheme(newTheme);
+        localStorage.setItem("vite-ui-theme", newTheme);
+    };
 
     const resultsRef: RefObject<HTMLDivElement | null> = useRef<HTMLDivElement | null>(null);
 
@@ -22,8 +32,13 @@ function Landing() {
             return;
         }
 
+        const apiUrl =
+            theme === "dark"
+                ? "http://127.0.0.1:8000/emails/getMadnessScore"
+                : "http://127.0.0.1:8000/emails/getConfidenceScore";
+
         try {
-            const response = await fetch("http://127.0.0.1:8000/emails/getAnxietyScore", {
+            const response = await fetch(apiUrl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -37,7 +52,12 @@ function Landing() {
 
             const data = await response.json();
 
-            setAnxietyScore(data.anxietyScore);
+            if (theme === "dark") {
+                setScore(data.madnessScore);
+            } else {
+                setScore(data.confidenceScore);
+            }
+
             setIsSubmitted(true);
             setIsError(false);
         } catch (error) {
@@ -51,26 +71,42 @@ function Landing() {
         }
     }, [isSubmitted]);
 
+    useEffect(() => {
+        document.documentElement.classList.remove("light", "dark");
+        document.documentElement.classList.add(theme);
+
+        if (theme === "dark") {
+            setResultsScoreType(ResultsScoreType.madness);
+        } else {
+            setResultsScoreType(ResultsScoreType.confidence);
+        }
+        setIsSubmitted(false);
+    }, [theme]);
+
     return <>
         <main>
-            <h1>Anxietize</h1>
+            <h1>Madnify</h1>
             <h2>Get started by writing an email</h2>
             <textarea
                 value={emailText}
                 onChange={(e) => setEmailText(e.target.value)}
                 placeholder="Draft your email here..."/>
+
             <div className="analyzeButtonContainer">
-                <AnalyzeButton onClick={() => handleSubmit()} />
-                <ModeToggle />
+                <AnalyzeButton
+                    onClick={() => handleSubmit()}
+                    type={resultsScoreType}
+                />
+                <ModeToggle toggleTheme={toggleTheme} />
             </div>
 
-            { isSubmitted ? (
+            { (isSubmitted) ? (
                 <Fade
                     delay={200}
                     duration={1000}
                 >
                     <div ref={resultsRef}>
-                        <Results anxietyScore={anxietyScore} />
+                        <Results score={score} resultsScoreType={resultsScoreType} />
                     </div>
                 </Fade>
             ) : null }
