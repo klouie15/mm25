@@ -20,7 +20,7 @@ textarea {
     @apply  w-full h-96 px-5 py-3  mb-[5%] focus:outline-none dark:bg-gray-200 dark:text-black rounded-3xl
 }
 
-.analyzeContainer {
+.analyzeButtonContainer {
     @apply flex justify-center mb-8
 }
 
