@@ -7,7 +7,7 @@ function AnalyzeButton({ onClick, type }:
         <button className="analyzeButton" onClick={onClick}>
             <img src={analyzeImgSrc} className="analyzeImg" alt="Analyze Button" />
             <p>{type === ResultsScoreType.confidence ?
-                ("Improve") : ("Madnify")} Email</p>
+                ("Analyze") : ("Madnify")} Email</p>
         </button>
     </>
 }
