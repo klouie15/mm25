@@ -10,8 +10,13 @@ function Results({ score, resultsScoreType, toneWords } :
             <h3 className="mt-2 mr-5">{resultsScoreType} Score</h3>
             <ScoreBar value={score} />
         </div>
-        <h3>Violating Words</h3>
-        <WordList toneWords={toneWords} />
+
+        { toneWords.length > 0 ? (
+            <>
+                <h3>Violating Words</h3>
+                <WordList toneWords={toneWords} />
+            </>
+        ) : null}
     </>
 }
 
