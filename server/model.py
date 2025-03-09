@@ -6,7 +6,9 @@ from sklearn.metrics import classification_report
 import pandas as pd
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
+import nltk
 import string
+import ssl
 
 
 datafile = "data.csv"
@@ -61,7 +63,7 @@ def pred_probabilities(user_input_string):
     ]
     # Rejoin tokens into a single string
     X = ' '.join(tokens)
-
+    X = vectorizer.transform(X)
     y_prob = classifier.predict_proba(X)
 
     return y_prob #probabilites in order neutral, happy, sad

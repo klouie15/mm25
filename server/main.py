@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from schemas import MadnessScoreRequest, NeutralScoreRequest, AnalysisResponse
+from model import pred_probabilities
+from frequent_words import frequent_words
 
 app = FastAPI()
 
@@ -19,11 +21,13 @@ app.add_middleware(
 
 @app.post("/madnessAnalysis", response_model=AnalysisResponse)
 async def get_madness_analysis(request: MadnessScoreRequest):
-    # TODO: Run model and get madness score
-    return AnalysisResponse(score=70, tone_words=["hello"])
+    score = pred_probabilities(request.text)[2]
+    tone_words = frequent_words(request.text)
+    return AnalysisResponse(score=score, tone_words=tone_words)
 
 
 @app.post("/neutralAnalysis", response_model=AnalysisResponse)
 async def get_neutral_analysis(request: NeutralScoreRequest):
-    # TODO: Run model and get confidence score
-    return AnalysisResponse(score=50, tone_words=["hello", "bye", "world", "goodbye", "testing", "framework", "love"])
+    score = pred_probabilities(request.text)[0]
+    tone_words = frequent_words(request.text)
+    return AnalysisResponse(score=score, tone_words=tone_words)
