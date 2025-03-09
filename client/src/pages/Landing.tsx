@@ -6,6 +6,7 @@ import { Fade } from "react-awesome-reveal";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import { AttentionSeeker, Slide } from "react-awesome-reveal";
+import { ModeToggle } from "../components/ModeToggle.tsx";
 
 function Landing() {
     const [emailText, setEmailText] = useState("");
@@ -60,6 +61,7 @@ function Landing() {
                 placeholder="Draft your email here..."/>
             <div className="analyzeButtonContainer">
                 <AnalyzeButton onClick={() => handleSubmit()} />
+                <ModeToggle />
             </div>
 
             { isSubmitted ? (
