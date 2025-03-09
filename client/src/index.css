@@ -4,6 +4,10 @@ body {
     /*@apply dark:bg-black dark:text-white*/
 }
 
+header {
+    @apply flex justify-start
+}
+
 main {
     @apply my-8 mx-[30%]
 }
@@ -22,6 +26,10 @@ h3 {
 
 textarea {
     @apply  w-full h-96 px-5 py-3  mb-[5%] focus:outline-none dark:bg-gray-200 dark:text-black rounded-3xl
+}
+
+.logo {
+    @apply w-4 h-4 mt-3 ml-3
 }
 
 .analyzeButtonContainer {

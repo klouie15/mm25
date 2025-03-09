@@ -7,6 +7,8 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert"
 import {AlertCircle} from "lucide-react"
 import {ModeToggle} from "../components/ModeToggle.tsx";
 import ResultsScoreType from "../components/ResultsScoreType.tsx";
+import LogoBlack from "../images/logo-black.png"
+import LogoWhite from "../images/logo-white.png"
 
 function Landing() {
     const [emailText, setEmailText] = useState("");
@@ -90,7 +92,14 @@ function Landing() {
 
     return <>
         <main>
-            <h1>Madnify</h1>
+            <header>
+                <h1>Madnify</h1>
+
+                { (theme === "dark") ?
+                    (<img src={LogoWhite} alt="Madnify Logo" className="logo"/>) :
+                    (<img src={LogoBlack} alt="Madnify Logo" className="logo"/>)
+                }
+            </header>
             <h2>Get started by writing an email</h2>
 
             <textarea
