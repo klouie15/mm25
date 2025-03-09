@@ -37,7 +37,7 @@ textarea {
 }
 
 .analyzeButton {
-    @apply flex py-3 mx-4 rounded-2xl w-[40%] dark:bg-gray-200 dark:hover:bg-gray-300 dark:text-black font-medium
+    @apply flex flex-wrap py-3 mx-4 rounded-2xl w-[40%] dark:bg-gray-200 dark:hover:bg-gray-300 dark:text-black font-medium
 }
 
 .analyzeImg {

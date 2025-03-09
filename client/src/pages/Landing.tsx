@@ -129,7 +129,7 @@ function Landing() {
         </main>
 
         { isError? (
-            <div className="fixed bottom-4 right-4 w-96">
+            <div className="fixed bottom-4 right-4 w-96 z-10">
                 <Slide direction="right" duration={100} triggerOnce>
                     <AttentionSeeker effect="shakeX" delay={100} duration={500} triggerOnce>
                         <Alert variant="destructive">
