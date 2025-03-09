@@ -36,7 +36,7 @@ textarea {
     @apply w-5 h-5 mx-6
 }
 
-.anxietyScoreContainer {
+.scoreContainer {
     @apply flex items-center
 }
 

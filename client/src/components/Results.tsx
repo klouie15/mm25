@@ -1,11 +1,11 @@
 import ScoreBar from "./ScoreBar.tsx";
 
-function Results({ anxietyScore } : { anxietyScore: number }) {
+function Results({ madnessScore } : { madnessScore: number }) {
     return <>
         <h2 className="mt-20">Results</h2>
-        <div className="anxietyScoreContainer">
-            <h3 className="mt-2 mr-5">Anxiety Score</h3>
-            <ScoreBar value={anxietyScore} />
+        <div className="scoreContainer">
+            <h3 className="mt-2 mr-5">Madness Score</h3>
+            <ScoreBar value={madnessScore} />
         </div>
     </>
 }

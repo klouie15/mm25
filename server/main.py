@@ -16,17 +16,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class AnxietyScoreRequest(BaseModel):
+class MadnessScoreRequest(BaseModel):
+    text: str
+
+class ConfidenceScoreRequest(BaseModel):
     text: str
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.post("/emails/getAnxietyScore")
-async def get_anxiety_score(request: AnxietyScoreRequest,
+@app.post("/emails/getMadnessScore")
+async def get_madness_score(request: MadnessScoreRequest,
                             response: Response):
-    # TODO: Run model and get anxiety score
-    return {"anxietyScore": 70}
+    # TODO: Run model and get madness score
+    return {"madnessScore": 70}
+
+@app.post("/emails/getConfidenceScore")
+async def get_confidence_score(request: ConfidenceScoreRequest,
+                            response: Response):
+    # TODO: Run model and get confidence score
+    return {"confidenceScore": 70}

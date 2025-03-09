@@ -11,7 +11,7 @@ import { ModeToggle } from "../components/ModeToggle.tsx";
 function Landing() {
     const [emailText, setEmailText] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [anxietyScore, setAnxietyScore] = useState(0);
+    const [madnessScore, setMadnessScore] = useState(0);
     const [isError, setIsError] = useState(false);
 
     const resultsRef: RefObject<HTMLDivElement | null> = useRef<HTMLDivElement | null>(null);
@@ -23,7 +23,7 @@ function Landing() {
         }
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/emails/getAnxietyScore", {
+            const response = await fetch("http://127.0.0.1:8000/emails/getMadnessScore", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -37,7 +37,7 @@ function Landing() {
 
             const data = await response.json();
 
-            setAnxietyScore(data.anxietyScore);
+            setMadnessScore(data.madnessScore);
             setIsSubmitted(true);
             setIsError(false);
         } catch (error) {
@@ -70,7 +70,7 @@ function Landing() {
                     duration={1000}
                 >
                     <div ref={resultsRef}>
-                        <Results anxietyScore={anxietyScore} />
+                        <Results madnessScore={madnessScore} />
                     </div>
                 </Fade>
             ) : null }
