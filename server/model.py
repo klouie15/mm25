@@ -63,7 +63,7 @@ def pred_probabilities(user_input_string):
     ]
     # Rejoin tokens into a single string
     X = ' '.join(tokens)
-    X = vectorizer.transform(X)
+    X = vectorizer.transform([X])
     y_prob = classifier.predict_proba(X)
 
     return y_prob #probabilites in order neutral, happy, sad

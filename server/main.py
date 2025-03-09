@@ -21,13 +21,13 @@ app.add_middleware(
 
 @app.post("/madnessAnalysis", response_model=AnalysisResponse)
 async def get_madness_analysis(request: MadnessScoreRequest):
-    score = pred_probabilities(request.text)[2]
+    score = pred_probabilities(request.text)[0][2] * 100
     tone_words = frequent_words(request.text)
     return AnalysisResponse(score=score, tone_words=tone_words)
 
 
 @app.post("/neutralAnalysis", response_model=AnalysisResponse)
 async def get_neutral_analysis(request: NeutralScoreRequest):
-    score = pred_probabilities(request.text)[0]
+    score = pred_probabilities(request.text)[0][0] * 100
     tone_words = frequent_words(request.text)
     return AnalysisResponse(score=score, tone_words=tone_words)
